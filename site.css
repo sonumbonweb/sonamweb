@@ -81,3 +81,79 @@ header nav a[aria-current]{color:#345b47;text-decoration:underline;text-decorati
 .kb-key.absent{background:#e6e9e3;border-color:#e6e9e3;color:#8c968e}
 @media(max-width:700px){#st-keyboard{display:block}.st-cell{width:var(--cell,44px);height:var(--cell,44px);font-size:1.1rem}}
 
+
+/* india maps (shared by Work and Travelogues) */
+.map-wrap{min-width:0}
+.india{display:block;width:100%;height:auto}
+.india-land{fill:#edf0ea;stroke:#78917e;stroke-width:2;stroke-linejoin:round}
+.india-states{fill:none;stroke:#cdd4cd;stroke-width:1.2;stroke-linejoin:round}
+.india text{font-family:Georgia,serif}
+
+/* work journey */
+.journey{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(1.5rem,5vw,4rem);align-items:center;border-top:1px solid #b8c1b9;padding:2.4rem 0 2.8rem}
+.journey .map-wrap{max-width:430px}
+.ghost{fill:#b8c1b9}
+.route{fill:none;stroke:#345b47;stroke-width:5;stroke-dasharray:2 14;stroke-linecap:round}
+.stop circle{fill:#345b47;stroke:#faf9f5;stroke-width:5}
+.stop:hover circle,.stop:focus circle{fill:#203c32}
+.india .stop-n{fill:#fff;font:28px system-ui,sans-serif}
+.stop-label{fill:#232c28;font-size:50px;paint-order:stroke;stroke:#edf0ea;stroke-width:8px}
+.india .stop-years{fill:#345b47;font:600 30px system-ui,sans-serif;paint-order:stroke;stroke:#edf0ea;stroke-width:8px}
+.journey h2{font-size:clamp(1.9rem,4vw,2.8rem)}
+.journey-text>p{margin:.7rem 0 1.3rem;max-width:46ch;color:#3a4640}
+.stops{list-style:none;margin:0;padding:0}
+.stops li{border-top:1px solid #d7dcd7}
+.stops a{display:flex;gap:.9rem;padding:.85rem 0;text-decoration:none}
+.stops a:hover strong{text-decoration:underline}
+.stops .n{flex:0 0 1.9rem;height:1.9rem;border-radius:50%;background:#345b47;color:#fff;display:grid;place-items:center;font-size:.85rem}
+.stops strong{font:1.25rem Georgia,serif;font-weight:normal}
+.stops small{color:#345b47;font-weight:650;margin-left:.3rem}
+.stops em{display:block;font-style:normal;font-size:.9rem;color:#505d55}
+@media(max-width:760px){.journey{grid-template-columns:1fr}.journey .map-wrap{max-width:340px}}
+
+/* travel map */
+.travel-map{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(1.5rem,4vw,3rem);align-items:start;border-top:1px solid #b8c1b9;padding:2rem 0 3rem}
+.travel-map .map-wrap{max-width:600px}
+.pin .hit{fill:transparent}
+.pin .dot{fill:#345b47;opacity:.55;stroke:#faf9f5;stroke-width:3;transition:opacity .15s}
+.pin:hover .dot,.pin:focus .dot{opacity:1}
+.pin.on .dot{opacity:1;fill:#203c32;stroke:#203c32;stroke-width:6}
+.pin:focus-visible{outline:none}
+.pin:focus-visible .dot{stroke:#232c28;stroke-width:6}
+.pin-label{pointer-events:none;display:none;fill:#232c28;font-size:27px;paint-order:stroke;stroke:#faf9f5;stroke-width:7px;stroke-linejoin:round}
+.pin-label.on{display:block}
+.map-card{position:sticky;top:1.5rem;background:#fff;border:1px solid #cdd4cd;border-radius:6px;padding:1.3rem 1.4rem}
+.map-count{display:block;color:#345b47;font-weight:650;font-size:.88rem}
+.map-place{font-size:1.7rem;margin:.35rem 0 .7rem;letter-spacing:-.02em}
+.map-note{font:1.1rem/1.6 Georgia,serif;color:#3a4640}
+.map-nav{display:flex;gap:.5rem;margin-top:1.2rem;flex-wrap:wrap}
+.map-nav button,.howto+#st-wrap #st-next{font:inherit;font-size:.9rem;color:#254333;background:transparent;border:1px solid #9caaa0;border-radius:3px;padding:.4rem .75rem;cursor:pointer}
+.map-nav button:hover{border-color:#345b47}
+.list-title{font-size:clamp(1.7rem,4vw,2.4rem);margin:1rem 0 1.2rem}
+@media(max-width:760px){.travel-map{grid-template-columns:1fr}.map-card{position:static}.pin .dot{stroke-width:9;stroke:#345b47}.pin.on .dot{stroke:#203c32;stroke-width:16}.pin-label{font-size:36px;stroke-width:9px}}
+
+/* stumble: centred */
+.centered .hero{margin-inline:auto;text-align:center}
+.centered .hero p{margin-inline:auto}
+.centered #st-wrap{margin-inline:auto}
+.howto{max-width:620px;margin:0 auto 2.2rem;background:#fff;border:1px solid #cdd4cd;border-radius:6px;padding:1.3rem 1.5rem}
+.howto h2{font-size:1.6rem;margin-bottom:.6rem}
+.howto ol{margin:0;padding-left:1.3rem}
+.howto li{margin:.55rem 0}
+.howto kbd{font:.85rem system-ui,sans-serif;border:1px solid #b8c1b9;border-bottom-width:2px;border-radius:3px;padding:0 .35rem;background:#faf9f5}
+.legend{list-style:none;padding:0;margin:.5rem 0 0;display:grid;gap:.4rem}
+.legend li{display:flex;align-items:center;gap:.6rem;margin:0}
+.tile{width:1.9rem;height:1.9rem;display:inline-grid;place-items:center;border-radius:3px;font:1rem Georgia,serif;flex:none}
+.tile.correct{background:#345b47;color:#fff}.tile.present{background:#8c968e;color:#fff}.tile.absent{background:#e6e9e3;color:#8c968e}
+
+/* bookstack */
+.books{padding-bottom:3rem}
+.book{display:grid;grid-template-columns:120px 1fr;gap:clamp(1rem,3vw,2.2rem);border-top:1px solid #b8c1b9;padding:1.7rem 0}
+.book h3{font-size:1.55rem;letter-spacing:-.02em;margin:.2rem 0 .5rem}
+.book .note{max-width:68ch;color:#3a4640}
+.book-meta{display:flex;gap:.6rem;flex-wrap:wrap;align-items:baseline;font-size:.9rem}
+.cover{position:relative;aspect-ratio:2/3;border-radius:2px 5px 5px 2px;background:var(--c);color:#f3f1ea;padding:.7rem .6rem;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;box-shadow:inset 6px 0 0 rgba(0,0,0,.18)}
+.cover-t{font:1rem/1.15 Georgia,serif}
+.cover-a{font-size:.68rem;line-height:1.25;opacity:.85}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
+@media(max-width:600px){.book{grid-template-columns:78px 1fr}.cover-t{font-size:.75rem}.cover-a{display:none}}
