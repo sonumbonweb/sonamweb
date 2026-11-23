@@ -1,9 +1,12 @@
 # sonambala.com
 
-A static site: no build step, no framework.
+Static site, no build step. Every page shares site.css.
 
-- `index.html` — home (Stumble), About, Bookstack, Travelogues, Contact
-- `work.html` — the Work page
-- `CNAME` — tells GitHub Pages to serve the custom domain sonambala.com
+- index.html — Work (the default page)
+- about.html, bookstack.html, travelogues.html, stumble.html, contact.html
+- site.css — the one stylesheet for every page
+- photo.jpg — About photo
+- work.html — redirects old /work.html links to the homepage
+- CNAME — custom domain for GitHub Pages
 
-Preview locally: `python3 -m http.server 8000`, then open http://localhost:8000.
+Preview: `python3 -m http.server 8000`, then open http://localhost:8000.
