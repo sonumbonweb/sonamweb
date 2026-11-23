@@ -1,78 +1,207 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Stumble · Sonam Bala</title><meta name="description" content="Stumble: guess the word, then fall down a rabbit hole."><link rel="stylesheet" href="site.css"></head><body><a class="skip" href="#main">Skip to content</a><header id="top"><a href="./" aria-label="Sonam Bala home">Sonam Bala</a><nav aria-label="Main"><a href="./">Work</a><a href="about.html">About</a><a href="bookstack.html">Bookstack</a><a href="travelogues.html">Travelogues</a><a href="stumble.html" aria-current="page">Stumble</a><a href="contact.html">Contact</a></nav></header><main id="main" class="centered"><div class="hero"><h1>Stumble</h1><p>Guess the word to open a rabbit hole. Each answer comes with a short story and a link to read more.</p></div><section class="howto" aria-labelledby="howto-title"><h2 id="howto-title">How to play</h2><ol>
-<li>Each round hides one word. The boxes show how many letters it has, and the dark label tells you its category, such as <em>person</em> or <em>place</em>.</li>
-<li>Type a guess on your keyboard, or tap the on-screen keys on a phone, then press <kbd>Enter</kbd>. <kbd>Backspace</kbd> deletes a letter. Guesses don’t have to be real words.</li>
-<li>After each guess, the boxes change colour:
-<ul class="legend"><li><span class="tile correct">A</span>right letter, right spot</li><li><span class="tile present">B</span>in the word, wrong spot</li><li><span class="tile absent">C</span>not in the word</li></ul></li>
-<li>You get one more guess than the word has letters. Stuck? Press <b>Show hint</b> for a clue.</li>
-<li>Solve it or run out of guesses to read the story behind the word, then press <b>Next word</b> for a new one. Answers can be names, places or shortened titles.</li>
-</ol></section><div id="st-wrap"><div id="st-game">
-          <div id="st-pills">
-            <span class="st-pill" id="p-len">? letters</span>
-            <span class="st-pill" id="p-try">? chances</span>
-            <span class="st-pill tag" id="p-tag">?</span>
-          </div>
-          <div id="st-hint-row">
-            <button id="st-hint-btn" onclick="revealHint()">Show hint</button>
-            <div id="st-hint-text"></div>
-          </div>
-          <div id="st-grid"></div>
-          <div id="st-msg">start typing</div>
-          <div id="st-reveal">
-            <div id="st-reveal-header">
-              <span id="st-reveal-word"></span>
-              <span id="st-reveal-typetag"></span>
-            </div>
-            <div id="st-reveal-body">
-              <div id="st-reveal-text"></div>
-              <div id="st-reveal-attr"></div>
-              <a id="st-reveal-link" href="#" target="_blank" rel="noopener"></a>
-            </div>
-          </div>
-          <div id="st-actions">
-            <button id="st-next" onclick="startGame()">Next word</button>
-          </div>
-          <div id="st-score"></div>
-          <div id="st-keyboard">
-            <div class="kb-row">
-              <button class="kb-key" data-key="Q">Q</button>
-              <button class="kb-key" data-key="W">W</button>
-              <button class="kb-key" data-key="E">E</button>
-              <button class="kb-key" data-key="R">R</button>
-              <button class="kb-key" data-key="T">T</button>
-              <button class="kb-key" data-key="Y">Y</button>
-              <button class="kb-key" data-key="U">U</button>
-              <button class="kb-key" data-key="I">I</button>
-              <button class="kb-key" data-key="O">O</button>
-              <button class="kb-key" data-key="P">P</button>
-            </div>
-            <div class="kb-row">
-              <button class="kb-key" data-key="A">A</button>
-              <button class="kb-key" data-key="S">S</button>
-              <button class="kb-key" data-key="D">D</button>
-              <button class="kb-key" data-key="F">F</button>
-              <button class="kb-key" data-key="G">G</button>
-              <button class="kb-key" data-key="H">H</button>
-              <button class="kb-key" data-key="J">J</button>
-              <button class="kb-key" data-key="K">K</button>
-              <button class="kb-key" data-key="L">L</button>
-            </div>
-            <div class="kb-row">
-              <button class="kb-key wide" data-key="ENTER">Enter</button>
-              <button class="kb-key" data-key="Z">Z</button>
-              <button class="kb-key" data-key="X">X</button>
-              <button class="kb-key" data-key="C">C</button>
-              <button class="kb-key" data-key="V">V</button>
-              <button class="kb-key" data-key="B">B</button>
-              <button class="kb-key" data-key="N">N</button>
-              <button class="kb-key" data-key="M">M</button>
-              <button class="kb-key wide" data-key="BACKSPACE">&#9003;</button>
-            </div>
-          </div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stumble · Sonam Bala</title>
+  <meta name="description" content="Stumble: guess the word, then fall down a rabbit hole.">
+  <style>
+:root {
+  --bg: #faf9f5;
+  --ink: #232c28;
+  --ink-soft: #3a4640;
+  --muted: #505d55;
+  --green: #345b47;
+  --green-dark: #203c32;
+  --line: #b8c1b9;
+  --line-soft: #d7dcd7;
+  --card: #ffffff;
+  --land: #edf0ea;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 1.03rem/1.65 system-ui, sans-serif; }
+a { color: inherit; text-underline-offset: .23em; }
+a:focus-visible, button:focus-visible { outline: 3px solid #416c56; outline-offset: 4px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: Georgia, serif; font-weight: normal; line-height: 1.1; }
+.skip { position: absolute; left: -100vw; }
+.skip:focus { left: 1rem; background: white; }
+
+/* header, footer */
+header, main, footer { width: min(1080px, 90%); margin: auto; }
+header, footer { display: flex; justify-content: space-between; align-items: center; padding: 1.35rem 0; }
+header { flex-wrap: wrap; gap: .5rem 2rem; border-bottom: 1px solid #afbab1; }
+header > a { font: 1.65rem Georgia, serif; text-decoration: none; }
+header nav { display: flex; flex-wrap: wrap; gap: .35rem 1.3rem; font-size: .95rem; }
+header nav a { text-decoration: none; color: var(--muted); }
+header nav a:hover { color: var(--ink); text-decoration: underline; }
+header nav a[aria-current] { color: var(--green); text-decoration: underline; text-decoration-thickness: 2px; }
+footer { border-top: 1px solid #afbab1; gap: 1rem; flex-wrap: wrap; }
+
+/* page intro */
+.hero { padding: clamp(3rem, 7vw, 6rem) 0 2.7rem; max-width: 810px; }
+.hero h1 { font-size: clamp(4.3rem, 10vw, 8rem); letter-spacing: -.07em; }
+.hero p { font-family: Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.85rem); line-height: 1.45; max-width: 690px; margin-top: 1rem; }
+
+/* small labels */
+.date { color: var(--green); font-weight: 650; font-size: .9rem; }
+.place { color: var(--muted); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* stumble: one centred card */
+.stumble { max-width: 560px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) 0 4rem; text-align: center; }
+.stumble h1 { font-size: clamp(3rem, 8vw, 4.6rem); letter-spacing: -.05em; }
+.stumble .lede { font: 1.15rem/1.5 Georgia, serif; color: var(--ink-soft); margin: .5rem 0 1.4rem; }
+.howto-open { font: inherit; font-size: .92rem; color: var(--green-dark); background: transparent; border: 1px solid #9caaa0; border-radius: 999px; padding: .4rem 1rem; cursor: pointer; }
+.howto-open:hover { border-color: var(--green); }
+
+.game { margin-top: 2rem; background: var(--card); border: 1px solid var(--line-soft); border-radius: 14px; padding: clamp(1.2rem, 4vw, 2rem); box-shadow: 0 1px 2px rgba(35, 44, 40, .05), 0 12px 32px -18px rgba(35, 44, 40, .25); }
+.pills { display: flex; justify-content: center; gap: .45rem; flex-wrap: wrap; }
+.pill { font-size: .8rem; padding: .2rem .75rem; border-radius: 999px; background: #eef1ec; color: var(--muted); }
+.pill.tag { background: var(--green); color: #fff; }
+.hint { min-height: 2.2rem; margin: .9rem 0 1.1rem; }
+.hint button { font: inherit; font-size: .9rem; color: var(--muted); background: none; border: 0; border-bottom: 1px dashed #9caaa0; padding: 0; cursor: pointer; }
+.hint button:hover { color: var(--ink); }
+.hint p { font: 1.05rem/1.5 Georgia, serif; color: var(--ink-soft); }
+
+.grid { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.row { display: flex; gap: 7px; }
+.cell { width: var(--cell, 54px); height: var(--cell, 54px); display: grid; place-items: center; border: 2px solid #dfe4de; border-radius: 8px; background: #fff; font: 1.45rem Georgia, serif; text-transform: uppercase; }
+.cell.current { border-color: #c3ccc2; }
+.cell.filled { border-color: #78917e; animation: pop .12s ease-out; }
+.cell.correct, .cell.present, .cell.absent { color: #fff; border-color: transparent; animation: flip .45s ease both; }
+.cell.correct { background: var(--green); }
+.cell.present { background: #8c968e; }
+.cell.absent { background: #e3e7e1; color: #8c968e; }
+@keyframes pop { 50% { transform: scale(1.08); } }
+@keyframes flip { from { transform: rotateX(90deg); } to { transform: rotateX(0); } }
+
+.message { min-height: 1.5rem; margin: 1rem 0 .4rem; font-size: .95rem; color: var(--muted); }
+.message.win { color: var(--green); font-weight: 650; }
+.message.lose { color: #8b1a1a; }
+
+.reveal { display: none; text-align: left; background: #f4f6f2; border-radius: 10px; padding: 1.1rem 1.2rem; margin-top: .8rem; }
+.reveal.show { display: block; animation: rise .3s ease both; }
+.reveal h2 { font-size: 1.5rem; }
+.reveal small { color: var(--muted); }
+.reveal p { font: 1.06rem/1.55 Georgia, serif; margin: .6rem 0; }
+.reveal a { color: var(--green); }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+.next { display: none; margin: 1.2rem auto 0; font: inherit; font-size: .95rem; color: #fff; background: var(--green); border: 0; border-radius: 999px; padding: .6rem 1.4rem; cursor: pointer; }
+.next:hover { background: var(--green-dark); }
+.score { margin-top: 1rem; font-size: .85rem; color: var(--muted); }
+
+/* on-screen keyboard: phones only */
+.keyboard { display: none; margin-top: 1.2rem; }
+.keyboard div { display: flex; justify-content: center; gap: 5px; margin-bottom: 6px; }
+.key { flex: 1; max-width: 36px; height: 46px; font: inherit; font-size: .85rem; border: 0; border-radius: 6px; background: #e9ece7; color: var(--ink); cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+.key.wide { max-width: 58px; font-size: .72rem; }
+.key.correct { background: var(--green); color: #fff; }
+.key.present { background: #8c968e; color: #fff; }
+.key.absent { background: #f6f7f4; color: #b3bab3; }
+
+/* how to play: a side panel that opens on request */
+.howto { margin: 0 0 0 auto; height: 100%; max-height: none; width: min(400px, 100%); border: 0; border-left: 1px solid var(--line-soft); padding: 2rem 1.8rem; background: var(--bg); color: var(--ink); text-align: left; }
+.howto[open] { animation: slide .25s ease both; }
+.howto::backdrop { background: rgba(35, 44, 40, .35); }
+@keyframes slide { from { transform: translateX(100%); } }
+.howto h2 { font-size: 1.9rem; margin-bottom: 1rem; }
+.howto ol { padding-left: 1.2rem; margin: 0; }
+.howto li { margin: .7rem 0; }
+.howto kbd { font: .82rem system-ui, sans-serif; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 .35rem; background: #fff; }
+.legend { list-style: none; padding: 0; margin: .6rem 0 0; }
+.legend li { display: flex; align-items: center; gap: .6rem; margin: .4rem 0; }
+.tile { width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 6px; font: 1rem Georgia, serif; flex: none; color: #fff; }
+.tile.correct { background: var(--green); }
+.tile.present { background: #8c968e; }
+.tile.absent { background: #e3e7e1; color: #8c968e; }
+.howto-close { position: absolute; top: 1.1rem; right: 1.2rem; font: inherit; font-size: .9rem; background: none; border: 0; color: var(--muted); cursor: pointer; text-decoration: underline; }
+
+@media (max-width: 700px) {
+  .keyboard { display: block; }
+  .cell { font-size: 1.15rem; border-radius: 6px; }
+}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="top">
+    <a href="./" aria-label="Sonam Bala home">Sonam Bala</a>
+    <nav aria-label="Main">
+      <a href="./">Work</a>
+      <a href="about.html">About</a>
+      <a href="bookstack.html">Bookstack</a>
+      <a href="travelogues.html">Travelogues</a>
+      <a href="stumble.html" aria-current="page">Stumble</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="stumble">
+      <h1>Stumble</h1>
+      <p class="lede">Guess the word, then fall down a rabbit hole.</p>
+      <button class="howto-open" type="button">How to play</button>
+
+      <div class="game">
+        <div class="pills">
+          <span class="pill" id="length"></span>
+          <span class="pill" id="tries"></span>
+          <span class="pill tag" id="category"></span>
         </div>
-      </div></div></main><footer><a href="mailto:mailsonamb@gmail.com">Get in touch</a><a href="#top">Back to top</a></footer><script>
-// STUMBLE
-const WORDS = [
+        <div class="hint">
+          <button type="button" id="hint-button">Show hint</button>
+          <p id="hint-text" hidden></p>
+        </div>
+        <div class="grid" id="grid" aria-label="Guesses"></div>
+        <p class="message" id="message" aria-live="polite">Start typing</p>
+        <div class="reveal" id="reveal">
+          <h2 id="reveal-word"></h2>
+          <small id="reveal-type"></small>
+          <p id="reveal-text"></p>
+          <small id="reveal-source"></small><br>
+          <a id="reveal-link" href="#" target="_blank" rel="noopener"></a>
+        </div>
+        <button class="next" id="next" type="button">Next word</button>
+        <p class="score" id="score"></p>
+        <div class="keyboard" id="keyboard">
+          <div><button class="key" data-key="Q">Q</button><button class="key" data-key="W">W</button><button class="key" data-key="E">E</button><button class="key" data-key="R">R</button><button class="key" data-key="T">T</button><button class="key" data-key="Y">Y</button><button class="key" data-key="U">U</button><button class="key" data-key="I">I</button><button class="key" data-key="O">O</button><button class="key" data-key="P">P</button></div>
+          <div><button class="key" data-key="A">A</button><button class="key" data-key="S">S</button><button class="key" data-key="D">D</button><button class="key" data-key="F">F</button><button class="key" data-key="G">G</button><button class="key" data-key="H">H</button><button class="key" data-key="J">J</button><button class="key" data-key="K">K</button><button class="key" data-key="L">L</button></div>
+          <div><button class="key wide" data-key="ENTER">Enter</button><button class="key" data-key="Z">Z</button><button class="key" data-key="X">X</button><button class="key" data-key="C">C</button><button class="key" data-key="V">V</button><button class="key" data-key="B">B</button><button class="key" data-key="N">N</button><button class="key" data-key="M">M</button><button class="key wide" data-key="BACKSPACE" aria-label="Delete">&#9003;</button></div>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="howto" id="howto" aria-labelledby="howto-title">
+      <button class="howto-close" type="button">Close</button>
+      <h2 id="howto-title">How to play</h2>
+      <ol>
+        <li>Each round hides one word. The boxes show how many letters it has, and the green label gives its category, such as <em>person</em> or <em>place</em>.</li>
+        <li>Type a guess and press <kbd>Enter</kbd>. <kbd>Backspace</kbd> deletes a letter. On a phone, use the keys under the board. Guesses don’t have to be real words.</li>
+        <li>After each guess, the boxes change colour:
+          <ul class="legend">
+            <li><span class="tile correct">A</span>Right letter, right spot</li>
+            <li><span class="tile present">B</span>In the word, wrong spot</li>
+            <li><span class="tile absent">C</span>Not in the word</li>
+          </ul>
+        </li>
+        <li>You get one more guess than the word has letters. Stuck? Press <b>Show hint</b>.</li>
+        <li>Solve it, or run out of guesses, to read the story behind the word. Then press <b>Next word</b>. Answers can be names, places or shortened titles.</li>
+      </ol>
+    </dialog>
+  </main>
+  <footer>
+    <a href="mailto:mailsonamb@gmail.com">Get in touch</a>
+    <a href="#top">Back to top</a>
+  </footer>
+<script>
+  const WORDS = [
   { word:"AARON",    tag:"person",     type:"biography",   hint:"A programmer who believed information should be free.",                                 reveal:"Aaron Swartz was a prodigy who co-authored RSS at 14, helped build Creative Commons, and later faced federal prosecution for downloading academic articles — a case that became a flashpoint for debates about internet freedom and the law.", attr:"Aaron Swartz (1986–2013)", link:"https://en.wikipedia.org/wiki/Aaron_Swartz", linkLabel:"read his Wikipedia article" },
   { word:"GAME",     tag:"concept",    type:"rabbit hole", hint:"Four rules. Infinite universes. Zero players.",                                         reveal:"The Game of Life isn't a board game — it's a zero-player mathematical universe invented by John Conway in 1970. Four simple rules applied to a grid of cells produce spaceships, oscillators, and self-replicating patterns of infinite complexity.", attr:"Conway's Game of Life", link:"https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life", linkLabel:"enter the game of life" },
   { word:"MALGUDI",  tag:"literature", type:"excerpt",     hint:"A fictional South Indian town that felt more real than most real places.",              reveal:"Malgudi was a whole world. It had its own railway station, its own river, its own eccentric population. R.K. Narayan never put it on a map, and that was the point — it existed more completely in the imagination than any real place could.", attr:"on Malgudi Days — R.K. Narayan", link:"https://en.wikipedia.org/wiki/Malgudi_Days", linkLabel:"explore Malgudi Days" },
@@ -151,194 +280,149 @@ const WORDS = [
   { word:"TORRES", tag:"mountain", type:"iconic", hint:"Spikes of stone in the sky.", reveal:"Torres del Paine features dramatic granite peaks formed by glacial activity.", attr:"Chile", link:"https://en.wikipedia.org/wiki/Torres_del_Paine", linkLabel:"explore Torres del Paine" }
 ];
 
-let secret, entry, maxRows, stRow, stCol, board, over;
-let played = 0, won = 0, used = [];
+  const $ = id => document.getElementById(id);
+  let entry, answer, rows, row, col, board, finished;
+  let played = 0, solved = 0, used = [];
 
-function pick() {
-  if (used.length >= WORDS.length) used = [];
-  let i;
-  do { i = Math.floor(Math.random() * WORDS.length); } while (used.includes(i));
-  used.push(i);
-  return WORDS[i];
-}
+  // ---------- how to play panel ----------
+  const howto = $('howto');
+  document.querySelector('.howto-open').addEventListener('click', () => howto.showModal());
+  howto.querySelector('.howto-close').addEventListener('click', () => howto.close());
+  howto.addEventListener('click', event => { if (event.target === howto) howto.close(); }); // click outside closes
 
-function startGame() {
-  entry   = pick();
-  secret  = entry.word.toUpperCase();
-  maxRows = secret.length + 1;
-  stRow = 0; stCol = 0;
-  board = Array.from({ length: maxRows }, () => Array(secret.length).fill(''));
-  over  = false;
-
-  document.getElementById('p-len').textContent = secret.length + ' letters';
-  document.getElementById('p-try').textContent = maxRows + ' chances';
-  document.getElementById('p-tag').textContent = entry.tag;
-
-  document.getElementById('st-hint-btn').style.display = 'inline-block';
-  document.getElementById('st-hint-text').style.display = 'none';
-  document.getElementById('st-hint-text').textContent = '';
-  document.getElementById('st-reveal').classList.remove('show');
-  document.getElementById('st-next').style.display = 'none';
-  setMsg('start typing', '');
-  buildGrid();
-  updateScore();
-  resetKeys();
-}
-
-function revealHint() {
-  document.getElementById('st-hint-btn').style.display = 'none';
-  const htxt = document.getElementById('st-hint-text');
-  htxt.textContent   = entry.hint || 'no hint available.';
-  htxt.style.display = 'block';
-}
-
-function buildGrid() {
-  const g = document.getElementById('st-grid');
-  g.innerHTML = '';
-  const room = document.getElementById('st-wrap').clientWidth;
-  const fit = Math.floor((room - 6 * (secret.length - 1)) / secret.length);
-  g.style.setProperty('--cell', fit < 52 ? Math.max(22, fit) + 'px' : '');
-  for (let r = 0; r < maxRows; r++) {
-    const rw = document.createElement('div');
-    rw.className = 'st-row';
-    for (let c = 0; c < secret.length; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'st-cell' + (r === 0 ? ' active' : '');
-      cell.id = `s-${r}-${c}`;
-      rw.appendChild(cell);
-    }
-    g.appendChild(rw);
-  }
-}
-
-function setCell(r, c, letter, state) {
-  const el = document.getElementById(`s-${r}-${c}`);
-  if (!el) return;
-  el.textContent = letter;
-  let cls = 'st-cell';
-  if (state)            cls += ' ' + state;
-  else if (letter)      cls += ' filled';
-  else if (r === stRow) cls += ' active';
-  el.className = cls;
-}
-
-document.addEventListener('keydown', e => {
-  if (e.metaKey || e.ctrlKey) return;
-  const k = e.key.toUpperCase();
-  if      (k === 'BACKSPACE') handle('BACKSPACE');
-  else if (k === 'ENTER')     handle('ENTER');
-  else if (/^[A-Z]$/.test(k)) handle(k);
-});
-
-function handle(k) {
-  if (over) return;
-  const W = secret.length;
-  if (k === 'BACKSPACE') {
-    if (stCol > 0) { stCol--; board[stRow][stCol] = ''; setCell(stRow, stCol, '', ''); }
-    setMsg('', '');
-  } else if (k === 'ENTER') {
-    submit();
-  } else if (/^[A-Z]$/.test(k) && stCol < W) {
-    board[stRow][stCol] = k;
-    setCell(stRow, stCol, k, '');
-    stCol++;
-    setMsg('', '');
-  }
-}
-
-function colorKeys(guess, result) {
-  const priority = { correct: 3, present: 2, absent: 1 };
-  result.forEach((state, i) => {
-    const letter = guess[i];
-    const btn = document.querySelector(`.kb-key[data-key="${letter}"]`);
-    if (!btn) return;
-    const cur = btn.dataset.state || '';
-    if ((priority[state] || 0) > (priority[cur] || 0)) {
-      btn.dataset.state = state;
-      btn.className = 'kb-key' + (btn.classList.contains('wide') ? ' wide' : '') + ' ' + state;
-    }
-  });
-}
-
-function resetKeys() {
-  document.querySelectorAll('.kb-key').forEach(btn => {
-    delete btn.dataset.state;
-    btn.className = 'kb-key' + (btn.dataset.key === 'ENTER' || btn.dataset.key === 'BACKSPACE' ? ' wide' : '');
-  });
-}
-
-function scoreGuess(guess, ans) {
-  const W = ans.length, res = Array(W).fill('absent'), cnt = {};
-  for (const c of ans) cnt[c] = (cnt[c] || 0) + 1;
-  for (let i = 0; i < W; i++) if (guess[i] === ans[i]) { res[i] = 'correct'; cnt[guess[i]]--; }
-  for (let i = 0; i < W; i++) if (res[i] !== 'correct' && cnt[guess[i]] > 0) { res[i] = 'present'; cnt[guess[i]]--; }
-  return res;
-}
-
-// Wire on-screen keyboard: touchstart for instant mobile response, mousedown for desktop fallback
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.kb-key').forEach(btn => {
-    const fire = (e) => {
-      e.preventDefault();
-      handle(btn.dataset.key);
-    };
-    btn.addEventListener('touchstart', fire, { passive: false });
-    btn.addEventListener('mousedown', fire);
-  });
-});
-
-function submit() {
-  const W = secret.length;
-  if (stCol < W) { setMsg('not enough letters', 'err'); return; }
-  const guess  = board[stRow].join('');
-  const result = scoreGuess(guess, secret);
-  result.forEach((state, c) => setCell(stRow, c, guess[c], state));
-  colorKeys(guess, result);
-
-  if (guess === secret) {
-    won++; played++;
-    setMsg('you found the rabbit hole', 'win');
-    over = true; showReveal();
-    document.getElementById('st-next').style.display = 'inline-block';
-    updateScore(); return;
+  // ---------- rounds ----------
+  function pickWord() {
+    if (used.length >= WORDS.length) used = [];
+    let i;
+    do { i = Math.floor(Math.random() * WORDS.length); } while (used.includes(i));
+    used.push(i);
+    return WORDS[i];
   }
 
-  stRow++; stCol = 0;
-  if (stRow < maxRows) {
-    for (let c = 0; c < secret.length; c++) setCell(stRow, c, '', '');
-    setMsg('', '');
-  } else {
-    played++;
-    setMsg('the word was ' + secret, 'err');
-    over = true; showReveal();
-    document.getElementById('st-next').style.display = 'inline-block';
+  function newRound() {
+    entry = pickWord();
+    answer = entry.word.toUpperCase();
+    rows = answer.length + 1;
+    row = 0; col = 0; finished = false;
+    board = Array.from({ length: rows }, () => Array(answer.length).fill(''));
+
+    $('length').textContent = answer.length + ' letters';
+    $('tries').textContent = rows + ' guesses';
+    $('category').textContent = entry.tag;
+    $('hint-button').hidden = false;
+    $('hint-text').hidden = true;
+    $('reveal').classList.remove('show');
+    $('next').style.display = 'none';
+    setMessage('Start typing');
+    drawGrid();
+    document.querySelectorAll('.key').forEach(key => key.classList.remove('correct', 'present', 'absent'));
     updateScore();
   }
-}
 
-function showReveal() {
-  const w = entry.word;
-  document.getElementById('st-reveal-word').textContent    = w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-  document.getElementById('st-reveal-typetag').textContent = entry.type + ' · ' + entry.tag;
-  document.getElementById('st-reveal-text').textContent    = entry.reveal;
-  document.getElementById('st-reveal-attr').textContent    = '— ' + entry.attr;
-  const lk = document.getElementById('st-reveal-link');
-  if (entry.link) { lk.href = entry.link; lk.textContent = entry.linkLabel || 'read more →'; lk.style.display = 'inline'; }
-  else { lk.style.display = 'none'; }
-  document.getElementById('st-reveal').classList.add('show');
-  document.getElementById('st-hint-btn').style.display = 'none';
-  document.getElementById('st-hint-text').style.display = 'none';
-}
+  function drawGrid() {
+    const grid = $('grid');
+    const room = grid.clientWidth || 480;
+    const size = Math.floor((room - 7 * (answer.length - 1)) / answer.length);
+    grid.style.setProperty('--cell', Math.max(24, Math.min(54, size)) + 'px');
+    grid.innerHTML = '';
+    for (let r = 0; r < rows; r++) {
+      const line = document.createElement('div');
+      line.className = 'row';
+      for (let c = 0; c < answer.length; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell' + (r === 0 ? ' current' : '');
+        cell.id = `cell-${r}-${c}`;
+        line.appendChild(cell);
+      }
+      grid.appendChild(line);
+    }
+  }
 
-function setMsg(t, cls) {
-  const el = document.getElementById('st-msg');
-  el.textContent = t; el.className = cls || '';
-}
+  function paint(r, c, letter, state, delay = 0) {
+    const cell = $(`cell-${r}-${c}`);
+    cell.textContent = letter;
+    cell.className = 'cell ' + (state || (letter ? 'filled' : (r === row ? 'current' : '')));
+    cell.style.animationDelay = delay + 'ms';
+  }
 
-function updateScore() {
-  document.getElementById('st-score').textContent =
-    played > 0 ? won + ' of ' + played + ' words solved' : '';
-}
+  // ---------- input ----------
+  function press(key) {
+    if (finished) return;
+    if (key === 'BACKSPACE') {
+      if (col > 0) { col--; board[row][col] = ''; paint(row, col, '', ''); }
+    } else if (key === 'ENTER') {
+      submit();
+    } else if (/^[A-Z0-9]$/.test(key) && col < answer.length) {
+      board[row][col] = key; paint(row, col, key, ''); col++;
+    }
+  }
 
-startGame();
-</script></body></html>
+  document.addEventListener('keydown', event => {
+    if (event.metaKey || event.ctrlKey || event.altKey || howto.open) return;
+    const key = event.key.toUpperCase();
+    if (key === 'BACKSPACE' || key === 'ENTER' || /^[A-Z0-9]$/.test(key)) { event.preventDefault(); press(key); }
+  });
+  document.querySelectorAll('.key').forEach(key =>
+    key.addEventListener('click', () => press(key.dataset.key)));
+
+  function score(guess) {
+    const result = Array(answer.length).fill('absent'), left = {};
+    for (const ch of answer) left[ch] = (left[ch] || 0) + 1;
+    for (let i = 0; i < guess.length; i++) if (guess[i] === answer[i]) { result[i] = 'correct'; left[guess[i]]--; }
+    for (let i = 0; i < guess.length; i++) if (result[i] !== 'correct' && left[guess[i]] > 0) { result[i] = 'present'; left[guess[i]]--; }
+    return result;
+  }
+
+  function submit() {
+    if (col < answer.length) { setMessage('Not enough letters', 'lose'); return; }
+    const guess = board[row].join('');
+    const result = score(guess);
+    result.forEach((state, c) => paint(row, c, guess[c], state, c * 90));
+    markKeys(guess, result);
+
+    if (guess === answer) return finish(true);
+    row++; col = 0;
+    if (row < rows) { for (let c = 0; c < answer.length; c++) paint(row, c, '', ''); setMessage(''); }
+    else finish(false);
+  }
+
+  function markKeys(guess, result) {
+    const rank = { correct: 3, present: 2, absent: 1 };
+    result.forEach((state, i) => {
+      const key = document.querySelector(`.key[data-key="${guess[i]}"]`);
+      if (!key) return;
+      const now = ['correct', 'present', 'absent'].find(s => key.classList.contains(s));
+      if (!now || rank[state] > rank[now]) { key.classList.remove('correct', 'present', 'absent'); key.classList.add(state); }
+    });
+  }
+
+  function finish(won) {
+    finished = true; played++; if (won) solved++;
+    setMessage(won ? 'You found the rabbit hole' : 'The word was ' + answer, won ? 'win' : 'lose');
+    $('reveal-word').textContent = entry.word.charAt(0) + entry.word.slice(1).toLowerCase();
+    $('reveal-type').textContent = entry.type + ' · ' + entry.tag;
+    $('reveal-text').textContent = entry.reveal;
+    $('reveal-source').textContent = entry.attr;
+    $('reveal-link').href = entry.link;
+    $('reveal-link').textContent = entry.linkLabel ? entry.linkLabel.charAt(0).toUpperCase() + entry.linkLabel.slice(1) : 'Read more';
+    $('hint-button').hidden = true;
+    $('hint-text').hidden = true;
+    setTimeout(() => $('reveal').classList.add('show'), answer.length * 90 + 300);
+    $('next').style.display = 'block';
+    updateScore();
+  }
+
+  function setMessage(text, kind) { const m = $('message'); m.textContent = text; m.className = 'message ' + (kind || ''); }
+  function updateScore() { $('score').textContent = played ? `${solved} of ${played} words solved` : ''; }
+
+  $('hint-button').addEventListener('click', () => {
+    $('hint-button').hidden = true;
+    $('hint-text').textContent = entry.hint;
+    $('hint-text').hidden = false;
+  });
+  $('next').addEventListener('click', () => { $('next').blur(); newRound(); });
+
+  newRound();
+</script>
+</body>
+</html>

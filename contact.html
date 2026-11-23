@@ -1,2 +1,92 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contact · Sonam Bala</title><meta name="description" content="How to reach Sonam Bala."><link rel="stylesheet" href="site.css"></head><body><a class="skip" href="#main">Skip to content</a><header id="top"><a href="./" aria-label="Sonam Bala home">Sonam Bala</a><nav aria-label="Main"><a href="./">Work</a><a href="about.html">About</a><a href="bookstack.html">Bookstack</a><a href="travelogues.html">Travelogues</a><a href="stumble.html">Stumble</a><a href="contact.html" aria-current="page">Contact</a></nav></header><main id="main"><div class="hero"><h1>Contact</h1><p>The best way to reach me is by email. I’m also on LinkedIn if that’s easier.</p></div><ul class="contact-links"><li><small>Email</small><a href="mailto:mailsonamb@gmail.com">mailsonamb@gmail.com</a></li><li><small>LinkedIn</small><a href="https://www.linkedin.com/in/sonam-bala/">linkedin.com/in/sonam-bala</a></li></ul></main><footer><a href="mailto:mailsonamb@gmail.com">Get in touch</a><a href="#top">Back to top</a></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Sonam Bala</title>
+  <meta name="description" content="How to reach Sonam Bala.">
+  <style>
+:root {
+  --bg: #faf9f5;
+  --ink: #232c28;
+  --ink-soft: #3a4640;
+  --muted: #505d55;
+  --green: #345b47;
+  --green-dark: #203c32;
+  --line: #b8c1b9;
+  --line-soft: #d7dcd7;
+  --card: #ffffff;
+  --land: #edf0ea;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 1.03rem/1.65 system-ui, sans-serif; }
+a { color: inherit; text-underline-offset: .23em; }
+a:focus-visible, button:focus-visible { outline: 3px solid #416c56; outline-offset: 4px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: Georgia, serif; font-weight: normal; line-height: 1.1; }
+.skip { position: absolute; left: -100vw; }
+.skip:focus { left: 1rem; background: white; }
+
+/* header, footer */
+header, main, footer { width: min(1080px, 90%); margin: auto; }
+header, footer { display: flex; justify-content: space-between; align-items: center; padding: 1.35rem 0; }
+header { flex-wrap: wrap; gap: .5rem 2rem; border-bottom: 1px solid #afbab1; }
+header > a { font: 1.65rem Georgia, serif; text-decoration: none; }
+header nav { display: flex; flex-wrap: wrap; gap: .35rem 1.3rem; font-size: .95rem; }
+header nav a { text-decoration: none; color: var(--muted); }
+header nav a:hover { color: var(--ink); text-decoration: underline; }
+header nav a[aria-current] { color: var(--green); text-decoration: underline; text-decoration-thickness: 2px; }
+footer { border-top: 1px solid #afbab1; gap: 1rem; flex-wrap: wrap; }
+
+/* page intro */
+.hero { padding: clamp(3rem, 7vw, 6rem) 0 2.7rem; max-width: 810px; }
+.hero h1 { font-size: clamp(4.3rem, 10vw, 8rem); letter-spacing: -.07em; }
+.hero p { font-family: Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.85rem); line-height: 1.45; max-width: 690px; margin-top: 1rem; }
+
+/* small labels */
+.date { color: var(--green); font-weight: 650; font-size: .9rem; }
+.place { color: var(--muted); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* contact */
+.contact { list-style: none; padding: 0; margin: 0 0 3rem; font: 1.4rem/1.6 Georgia, serif; }
+.contact li { border-top: 1px solid var(--line); padding: 1rem 0; }
+.contact small { display: block; font: .9rem system-ui, sans-serif; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="top">
+    <a href="./" aria-label="Sonam Bala home">Sonam Bala</a>
+    <nav aria-label="Main">
+      <a href="./">Work</a>
+      <a href="about.html">About</a>
+      <a href="bookstack.html">Bookstack</a>
+      <a href="travelogues.html">Travelogues</a>
+      <a href="stumble.html">Stumble</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+  </header>
+  <main id="main">
+    <div class="hero">
+      <h1>Contact</h1>
+      <p>The best way to reach me is by email. I’m also on LinkedIn if that’s easier.</p>
+    </div>
+    <ul class="contact">
+      <li><small>Email</small><a href="mailto:mailsonamb@gmail.com">mailsonamb@gmail.com</a></li>
+      <li><small>LinkedIn</small><a href="https://www.linkedin.com/in/sonam-bala/">linkedin.com/in/sonam-bala</a></li>
+    </ul>
+  </main>
+  <footer>
+    <a href="mailto:mailsonamb@gmail.com">Get in touch</a>
+    <a href="#top">Back to top</a>
+  </footer>
+
+</body>
+</html>
