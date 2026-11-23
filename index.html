@@ -386,6 +386,7 @@ nav a.active { color: var(--green); }
     <nav id="sb-nav">
       <a href="#home"        class="active" data-page="home"        onclick="goTo(this)">Home</a>
       <a href="#about"                      data-page="about"       onclick="goTo(this)">About</a>
+      <a href="./work.html">Work</a>
       <a href="#projects"                   data-page="projects"    onclick="goTo(this)">Projects</a>
       <a href="#bookstack"                  data-page="bookstack"   onclick="goTo(this)">Bookstack</a>
       <a href="#travelogues"                data-page="travelogues" onclick="goTo(this)">Travelogues</a>
@@ -486,7 +487,7 @@ nav a.active { color: var(--green); }
         <p>I spend my days figuring out what to build and why it matters. What I also find deeply interesting is the gap between what users say they want and what they actually need &#8212; or the stories that actually matter but get lost in translation.</p>
         <p><i><b>Indulgences:</b> reading anything in direct line of sight [including obscure labels], hiking trails [less often than I&#8217;d like to], figuring out how systems fail including entire civilizations, and writing stuff [something that my father rightly predicted I&#8217;d waste my life onto], and word games.</i></p>
         <p class="about-meta">&#128205; Bengaluru, IN <br>
-          &#128188; Brand &amp; Comms. Lead at <a href="https://bolna.ai" target="_blank" rel="noopener">Bolna</a></p>
+          &#128188; Brand &amp; Product Marketing Lead at <a href="./work.html#bolna-timeline">Bolna</a></p>
       </div>
     </section>
 
@@ -784,7 +785,7 @@ window.addEventListener('popstate', e => {
 })();
 
 // STUMBLE
-const GITHUB_RAW = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/words.json';
+const GITHUB_RAW = './words.json';
 
 const FALLBACK = [
   { word:"AARON",    tag:"person",     type:"biography",   hint:"A programmer who believed information should be free.",                                 reveal:"Aaron Swartz was a prodigy who co-authored RSS at 14, helped build Creative Commons, and later faced federal prosecution for downloading academic articles — a case that became a flashpoint for debates about internet freedom and the law.", attr:"Aaron Swartz (1986–2013)", link:"https://en.wikipedia.org/wiki/Aaron_Swartz", linkLabel:"read his Wikipedia article" },
