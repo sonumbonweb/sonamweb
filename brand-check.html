@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonam Bala · Brand check</title>
+<meta name="description" content="Say your company’s name, add where you show up online, and get a quick read on your brand presence, a score, and what I’d do first as your brand and product marketing hire.">
+<style>
+* { box-sizing: border-box }
+html { scroll-behavior: smooth; scroll-padding-top: 2rem }
+body { margin: 0; background: #faf9f5; color: #232c28; font: 1.03rem/1.65 system-ui, sans-serif }
+a { color: inherit; text-underline-offset: .23em }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #416c56; outline-offset: 3px }
+header, main, footer { width: min(1080px, 90%); margin: auto }
+header, footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 1.35rem 0; border-bottom: 1px solid #afbab1 }
+header > a { font: 1.65rem Georgia, serif; text-decoration: none }
+nav { display: flex; gap: 1.35rem; flex-wrap: wrap }
+nav a { text-decoration: none; color: #505d55 }
+nav a[aria-current] { color: #345b47; text-decoration: underline; text-decoration-thickness: 2px }
+footer { border-top: 1px solid #afbab1; border-bottom: 0; margin-top: 4rem; font-size: .9rem; color: #505d55 }
+h1, h2, h3, p { margin: 0 }
+h1, h2, h3 { font-family: Georgia, serif; font-weight: normal; line-height: 1.1 }
+
+/* intro */
+.intro { padding: clamp(2.6rem, 6vw, 4.5rem) 0 2rem; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: end }
+.intro h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); letter-spacing: -.045em; text-wrap: balance }
+.intro p { font: 1.12rem/1.6 Georgia, serif; color: #3a4640; max-width: 46ch }
+
+/* the form */
+.check { border-top: 1px solid #b8c1b9; padding-top: 2rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.4rem 2.4rem }
+.field { display: grid; gap: .35rem }
+.field.full { grid-column: 1 / -1 }
+.field label { font-weight: 650; font-size: .95rem }
+.field small { color: #6b766f; font-size: .85rem }
+.say { display: flex; gap: .5rem }
+input, textarea { width: 100%; font: inherit; color: inherit; background: #fff; border: 1px solid #b8c1b9; border-radius: 6px; padding: .65rem .8rem }
+textarea { min-height: 5.4rem; resize: vertical }
+input::placeholder, textarea::placeholder { color: #98a39b }
+.mic { flex: none; width: 46px; border: 1px solid #b8c1b9; background: #fff; border-radius: 6px; cursor: pointer; display: grid; place-items: center; color: #345b47 }
+.mic svg { width: 20px; height: 20px }
+.mic[aria-pressed="true"] { background: #345b47; color: #fff; border-color: #345b47; animation: listen 1.2s ease-in-out infinite }
+@keyframes listen { 50% { box-shadow: 0 0 0 6px rgba(52, 91, 71, .18) } }
+.no-speech .mic { display: none }
+.handles { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem }
+.actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap }
+.go { font: 600 1rem system-ui, sans-serif; color: #fff; background: #345b47; border: 0; border-radius: 999px; padding: .8rem 1.5rem; cursor: pointer }
+.go:hover { background: #203c32 }
+a.go { text-decoration: none; display: inline-block }
+.go:disabled { opacity: .55; cursor: progress }
+.hint { color: #6b766f; font-size: .88rem }
+.error { color: #9a3b2e; font-size: .92rem }
+
+/* progress */
+.progress { margin-top: 2rem; display: none }
+.progress.on { display: block }
+.progress ul { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem 1.4rem; font-size: .92rem }
+.progress li::before { content: ""; display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; margin-right: .5rem; background: #c9d1c8; vertical-align: .05em }
+.progress li.busy::before { background: #e3b75b }
+.progress li.done::before { background: #345b47 }
+.progress li.fail::before { background: #c97a6b }
+
+/* report */
+.report { display: none; margin-top: 3rem; border-top: 1px solid #b8c1b9; padding-top: 2.4rem }
+.report.on { display: block }
+.verdict { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(2rem, 5vw, 4rem); align-items: center }
+.meter { display: grid; gap: 1rem }
+.score { display: flex; align-items: baseline; gap: .6rem }
+.score b { font: 6.5rem/0.9 Georgia, serif; letter-spacing: -.06em; font-weight: normal }
+.score span { font-size: 1.1rem; color: #505d55 }
+.levels { display: flex; align-items: flex-end; gap: 4px; height: 70px }
+.levels i { flex: 1; border-radius: 2px; background: #dfe4df; transition: background .3s ease }
+.levels i.on { background: #345b47 }
+.grade { font: 1.7rem Georgia, serif }
+.verdict p { color: #3a4640; max-width: 56ch }
+.verdict .read { font: 1.1rem/1.6 Georgia, serif; margin-top: .4rem }
+
+.section { margin-top: 3rem }
+.section > h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -.03em; margin-bottom: .4rem }
+.section > p.lede { color: #505d55; max-width: 64ch; margin-bottom: 1rem }
+
+.params { list-style: none; margin: 0; padding: 0; border-top: 1px solid #d7dcd7 }
+.params li { display: grid; grid-template-columns: 13rem 7rem minmax(0, 1fr); gap: 1.2rem; align-items: center; padding: .85rem 0; border-bottom: 1px solid #d7dcd7 }
+.params .name { font-weight: 650 }
+.params .name small { display: block; font-weight: 400; color: #6b766f; font-size: .82rem }
+.params .bar { height: 8px; border-radius: 6px; background: #e4e9e3; overflow: hidden }
+.params .bar i { display: block; height: 100%; background: #345b47; border-radius: 6px }
+.params .pts { font-size: .82rem; color: #505d55; margin-top: .25rem }
+.params .found { font-size: .93rem; color: #3a4640 }
+.params li.skip .bar i { background: transparent }
+.params li.skip .pts { font-style: italic }
+
+.links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem 2.4rem }
+.links h3 { font-size: 1.3rem; margin-bottom: .4rem }
+.links ul { list-style: none; margin: 0; padding: 0 }
+.links li { padding: .45rem 0; border-bottom: 1px solid #e3e7e1; font-size: .93rem; line-height: 1.45 }
+.links li small { display: block; color: #6b766f; font-size: .8rem }
+.links .empty { color: #6b766f; font-style: italic }
+
+.plan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem; counter-reset: phase }
+.phase h3 { font-size: 1.35rem; padding-bottom: .5rem; border-bottom: 2px solid #345b47; margin-bottom: .8rem }
+.phase h3 small { display: block; font: .85rem system-ui, sans-serif; color: #505d55; margin-top: .2rem }
+.move { padding: .2rem 0 1.1rem }
+.move strong { display: block; font-size: 1rem; margin-bottom: .2rem }
+.move p { font-size: .93rem; color: #3a4640 }
+.move .proof { margin-top: .4rem; font-size: .85rem; color: #345b47 }
+.talk { margin-top: 2.6rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.3rem 1.4rem; border-left: 3px solid #345b47; background: #fff }
+.talk p { font: 1.15rem Georgia, serif }
+.method { margin-top: 2rem; font-size: .85rem; color: #6b766f; max-width: 80ch }
+
+@media (max-width: 860px) {
+  .intro, .verdict, .check { grid-template-columns: 1fr }
+  .handles { grid-template-columns: 1fr 1fr }
+  .params li { grid-template-columns: 1fr; gap: .4rem }
+  .links, .plan { grid-template-columns: 1fr }
+  .progress ul { grid-template-columns: 1fr 1fr }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } .mic[aria-pressed="true"] { animation: none } .levels i { transition: none } }
+</style></head>
+<body>
+<header><a href="./" aria-label="Sonam Bala home">Sonam Bala</a><nav aria-label="Main"><a href="./">Work</a><a href="about.html">About</a><a href="bookstack.html">Bookstack</a><a href="travelogues.html">Travelogues</a><a href="stumble.html">Stumble</a><a href="brand-check.html" aria-current="page">Brand check</a><a href="contact.html">Contact</a></nav></header>
+<main>
+  <section class="intro">
+    <h1>How loud is your brand?</h1>
+    <p>Say your company’s name, add where you show up online, and get a quick read on how people find and talk about you, with a score and what I’d do first.</p>
+  </section>
+
+  <form class="check" id="check" novalidate>
+    <div class="field">
+      <label for="company">Company name</label>
+      <div class="say"><input id="company" name="company" autocomplete="organization" placeholder="Say it or type it" required>
+        <button type="button" class="mic" data-for="company" aria-pressed="false" aria-label="Say your company name"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+    </div>
+    <div class="field">
+      <label for="website">Website</label>
+      <input id="website" name="website" inputmode="url" placeholder="yourcompany.com">
+    </div>
+    <div class="field full">
+      <label for="about">What does it do, and for whom? <small>Optional. Helps shape the plan.</small></label>
+      <div class="say"><textarea id="about" name="about" placeholder="For example: voice agents that call customers in their own language"></textarea>
+        <button type="button" class="mic" data-for="about" aria-pressed="false" aria-label="Say what your company does"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+    </div>
+    <div class="handles">
+      <div class="field"><label for="x">X</label><input id="x" name="x" placeholder="@handle"></div>
+      <div class="field"><label for="linkedin">LinkedIn</label><input id="linkedin" name="linkedin" placeholder="company page URL or name"></div>
+      <div class="field"><label for="instagram">Instagram</label><input id="instagram" name="instagram" placeholder="@handle"></div>
+      <div class="field"><label for="youtube">YouTube</label><input id="youtube" name="youtube" placeholder="@channel"></div>
+    </div>
+    <div class="actions">
+      <button class="go" type="submit">Check my presence</button>
+      <span class="hint" id="hint">Takes about ten seconds. Nothing you enter is stored.</span>
+    </div>
+  </form>
+
+  <section class="progress" id="progress" aria-live="polite"><p class="hint">Listening across the internet…</p><ul id="sources"></ul></section>
+
+  <section class="report" id="report" aria-live="polite">
+    <div class="verdict">
+      <div class="meter">
+        <div class="score"><b id="score">0</b><span>out of 100</span></div>
+        <div class="levels" id="levels" aria-hidden="true"></div>
+      </div>
+      <div><p class="grade" id="grade"></p><p class="read" id="read"></p></div>
+    </div>
+
+    <div class="section"><h2>How the score adds up</h2><p class="lede">Six signals, each with a fixed weight. Anything we couldn’t measure is left out of the total rather than counted as zero.</p><ul class="params" id="params"></ul></div>
+
+    <div class="section"><h2>What’s out there</h2><p class="lede">The links behind the score, so you can see what a curious buyer would find.</p><div class="links" id="links"></div></div>
+
+    <div class="section"><h2>What I’d do in the first 90 days</h2><p class="lede" id="plan-lede"></p><div class="plan" id="plan"></div></div>
+
+    <div class="talk"><p>Want to talk the plan through?</p><a class="go" id="mail" href="mailto:mailsonamb@gmail.com">Email me about it</a></div>
+    <p class="method">How this works: signals come from public sources read straight from your browser: the GDELT news index (last three months), Hacker News and Reddit conversations (last twelve months), Wikipedia, GitHub and your website’s own metadata. Follower counts on social networks aren’t readable this way, so handles you add count as presence, not reach. Common words make noisy matches; treat this as a first look, not an audit.</p>
+  </section>
+</main>
+<footer><span>Sonam Bala · Bengaluru</span><a href="mailto:mailsonamb@gmail.com">mailsonamb@gmail.com</a></footer>
+
+<script>
+(function () {
+  // ---------- speech input ----------
+  const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Speech) document.body.classList.add('no-speech');
+  let active = null;
+  document.querySelectorAll('.mic').forEach(btn => btn.addEventListener('click', () => {
+    if (active) { active.stop(); return; }
+    const field = document.getElementById(btn.dataset.for);
+    const rec = new Speech();
+    rec.lang = navigator.language || 'en-IN'; rec.interimResults = true; rec.maxAlternatives = 1;
+    const before = field.value && field.tagName === 'TEXTAREA' ? field.value.trim() + ' ' : '';
+    rec.onresult = e => { field.value = before + [...e.results].map(r => r[0].transcript).join(' ').trim(); };
+    rec.onend = () => { btn.setAttribute('aria-pressed', 'false'); active = null; field.focus(); };
+    rec.onerror = () => rec.stop();
+    btn.setAttribute('aria-pressed', 'true'); active = rec; rec.start();
+  }));
+
+  // ---------- helpers ----------
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  async function getJSON(url, ms = 9000) {
+    const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), ms);
+    try { const r = await fetch(url, { signal: ctrl.signal }); if (!r.ok) throw new Error(r.status); return await r.json(); }
+    finally { clearTimeout(t); }
+  }
+  const handle = v => v.trim().replace(/^https?:\/\/(www\.)?[^/]+\//, '').replace(/^@/, '').replace(/\/$/, '');
+  const normSite = v => { v = v.trim(); if (!v) return ''; return /^https?:\/\//.test(v) ? v : 'https://' + v; };
+  const mentions = (text, name) => String(text || '').toLowerCase().includes(name.toLowerCase());
+  const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+
+  // ---------- the six signals ----------
+  // Each returns { pts, max, found, links } or throws when the source can't be read.
+  const SIGNALS = [
+    { key: 'site', name: 'Website clarity', max: 15, note: 'title, description, preview image, logo',
+      async run(q) {
+        if (!q.site) return { pts: 0, max: 15, found: 'No website added.', links: [] };
+        const d = (await getJSON('https://api.microlink.io/?url=' + encodeURIComponent(q.site))).data || {};
+        let pts = 0; const got = [];
+        if (d.title) { pts += 3; got.push('a title'); }
+        if (d.description) { pts += 4; got.push('a description'); if (d.description.length >= 50 && d.description.length <= 200) pts += 2; }
+        if (d.image && d.image.url) { pts += 4; got.push('a share image'); }
+        if (d.logo && d.logo.url) { pts += 2; got.push('a logo'); }
+        const list = got.length > 1 ? got.slice(0, -1).join(', ') + ' and ' + got.at(-1) : got[0];
+        const found = got.length ? 'The homepage has ' + list + '.' + (d.description ? ' It says: “' + d.description.slice(0, 140) + (d.description.length > 140 ? '…' : '') + '”' : '') : 'The homepage shares almost nothing when linked.';
+        return { pts, max: 15, found, links: [{ group: 'Your channels', title: d.title || q.site, url: q.site, meta: 'Homepage' }] };
+      } },
+    { key: 'news', name: 'News and press', max: 20, note: 'articles in the last three months',
+      async run(q) {
+        const d = await getJSON('https://api.gdeltproject.org/api/v2/doc/doc?query=' + encodeURIComponent('"' + q.name + '"') + '&mode=ArtList&maxrecords=75&timespan=3months&sort=DateDesc&format=json');
+        const arts = (d.articles || []).filter(a => mentions(a.title, q.name));
+        const n = arts.length, outlets = new Set(arts.map(a => a.domain)).size;
+        const pts = n === 0 ? 0 : n < 3 ? 6 : n < 10 ? 12 : n < 30 ? 16 : 20;
+        return { pts, max: 20, found: n ? n + ' headline' + (n > 1 ? 's' : '') + ' across ' + outlets + ' outlet' + (outlets > 1 ? 's' : '') + ' name the company.' : 'No headlines naming the company in the last three months.',
+          links: arts.slice(0, 6).map(a => ({ group: 'In the news', title: a.title, url: a.url, meta: a.domain })) };
+      } },
+    { key: 'community', name: 'Community conversation', max: 20, note: 'Hacker News and Reddit, last twelve months',
+      async run(q) {
+        const since = Math.floor(Date.now() / 1000) - 365 * 86400;
+        const [hn, rd] = await Promise.allSettled([
+          getJSON('https://hn.algolia.com/api/v1/search?query=' + encodeURIComponent(q.name) + '&tags=(story,comment)&numericFilters=created_at_i>' + since + '&hitsPerPage=40'),
+          getJSON('https://www.reddit.com/search.json?q=' + encodeURIComponent('"' + q.name + '"') + '&sort=new&t=year&limit=25')
+        ]);
+        if (hn.status === 'rejected' && rd.status === 'rejected') throw new Error('unreachable');
+        const hnHits = hn.status === 'fulfilled' ? hn.value.hits.filter(h => mentions(h.title || h.story_title || h.comment_text, q.name)) : [];
+        const rdHits = rd.status === 'fulfilled' ? rd.value.data.children.map(c => c.data).filter(p => mentions(p.title + ' ' + (p.selftext || ''), q.name)) : [];
+        const n = hnHits.length + rdHits.length;
+        const pts = n === 0 ? 0 : n < 5 ? 8 : n < 20 ? 14 : 20;
+        const links = [
+          ...hnHits.slice(0, 4).map(h => ({ group: 'People talking', title: h.title || h.story_title || 'Hacker News comment', url: 'https://news.ycombinator.com/item?id=' + h.objectID, meta: 'Hacker News' })),
+          ...rdHits.slice(0, 4).map(p => ({ group: 'People talking', title: p.title, url: 'https://www.reddit.com' + p.permalink, meta: 'r/' + p.subreddit }))
+        ];
+        return { pts, max: 20, found: n ? n + ' conversation' + (n > 1 ? 's' : '') + ' mention the company' + (rd.status === 'rejected' ? ' on Hacker News (Reddit didn’t respond).' : '.') : 'Nobody is talking about it yet on Hacker News or Reddit.', links };
+      } },
+    { key: 'social', name: 'Social footprint', max: 15, note: 'channels you run',
+      async run(q) {
+        const ch = [
+          ['x', 4, 'X', h => 'https://x.com/' + h], ['linkedin', 5, 'LinkedIn', h => /^https?:/.test(q.raw.linkedin) ? q.raw.linkedin : 'https://www.linkedin.com/company/' + h],
+          ['instagram', 3, 'Instagram', h => 'https://www.instagram.com/' + h], ['youtube', 3, 'YouTube', h => 'https://www.youtube.com/@' + h]];
+        let pts = 0; const have = [], links = [];
+        ch.forEach(([k, w, label, url]) => { const h = q[k]; if (h) { pts += w; have.push(label); links.push({ group: 'Your channels', title: label + ': ' + h, url: url(h), meta: label }); } });
+        return { pts, max: 15, found: have.length ? 'Active on ' + have.join(', ') + '.' : 'No social channels added.', links };
+      } },
+    { key: 'builders', name: 'Builder community', max: 15, note: 'public code and stars on GitHub',
+      async run(q) {
+        const s = await getJSON('https://api.github.com/search/users?q=' + encodeURIComponent(q.name.replace(/\s+/g, '') + ' type:org') + '&per_page=5');
+        const want = q.name.toLowerCase().replace(/[^a-z0-9]/g, ''), site = q.site ? host(q.site).split('.')[0] : '';
+        const org = (s.items || []).find(o => { const l = o.login.toLowerCase().replace(/[^a-z0-9]/g, ''); return l.includes(want) || (site && l.includes(site)); });
+        if (!org) return { pts: 0, max: 15, found: 'No public GitHub organisation found.', links: [] };
+        const repos = await getJSON('https://api.github.com/orgs/' + org.login + '/repos?per_page=100&sort=updated');
+        const stars = repos.reduce((n, r) => n + (r.stargazers_count || 0), 0);
+        const pts = (repos.length ? 5 : 0) + (stars >= 50 ? 5 : 0) + (stars >= 500 ? 5 : 0);
+        const top = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 3);
+        return { pts, max: 15, found: repos.length + ' public repositor' + (repos.length === 1 ? 'y' : 'ies') + ' with ' + stars.toLocaleString() + ' stars in total.',
+          links: [{ group: 'Builders', title: 'github.com/' + org.login, url: org.html_url, meta: 'GitHub organisation' }, ...top.map(r => ({ group: 'Builders', title: r.name, url: r.html_url, meta: r.stargazers_count.toLocaleString() + ' stars' }))] };
+      } },
+    { key: 'reference', name: 'Reference and authority', max: 15, note: 'Wikipedia',
+      async run(q) {
+        const d = await getJSON('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent('"' + q.name + '"') + '&srlimit=6&format=json&origin=*');
+        const hits = d.query.search || [];
+        const own = hits.find(h => h.title.toLowerCase().startsWith(q.name.toLowerCase()));
+        const cited = hits.filter(h => h !== own).length;
+        const pts = (own ? 10 : 0) + (cited ? 5 : 0);
+        const links = [];
+        if (own) links.push({ group: 'Reference', title: own.title, url: 'https://en.wikipedia.org/wiki/' + encodeURIComponent(own.title.replace(/ /g, '_')), meta: 'Wikipedia article' });
+        hits.filter(h => h !== own).slice(0, 3).forEach(h => links.push({ group: 'Reference', title: h.title, url: 'https://en.wikipedia.org/wiki/' + encodeURIComponent(h.title.replace(/ /g, '_')), meta: 'Mentions the company' }));
+        return { pts, max: 15, found: own ? 'Has its own Wikipedia article' + (cited ? ', and is mentioned in ' + cited + (cited === 1 ? ' other.' : ' others.') : '.') : cited ? 'No article of its own, but mentioned in ' + cited + (cited === 1 ? ' Wikipedia page.' : ' Wikipedia pages.') : 'Not on Wikipedia yet.', links };
+      } }
+  ];
+
+  const GRADES = [
+    [80, 'Loud and clear', 'People can find you, hear about you and see others talking about you. The work now is turning that attention into usage and advocates.'],
+    [60, 'Heard', 'The basics are in place and people are starting to notice. A few deliberate moves would make the brand impossible to miss in your category.'],
+    [40, 'Finding its voice', 'There’s a presence, but it isn’t yet carrying the product. The gaps below are where a buyer’s curiosity currently runs out.'],
+    [0, 'Still quiet', 'Most people who should know about you can’t find you yet. That’s the best time to set the story, before others set it for you.']
+  ];
+
+  // ---------- what I'd do, keyed to the weakest signals ----------
+  // Every move is product-led advocacy or community engagement, drawn from how problems were solved at Bolna.
+  const MOVES = {
+    site: { title: 'Write the messaging hierarchy before the next page', body: 'One promise, three proof points and a single action that puts people in the product. Then rebuild the homepage, launch pages and sales material on that spine.', proof: 'At Bolna, brand pillars and the messaging hierarchy came first; everything after was built on them.' },
+    news: { title: 'Make every launch carry a number', body: 'Pair each release with a short film showing the exact feature in the product and one hard fact a journalist can repeat, then pitch it with founder and customer voices.', proof: 'The Syl launch led with one fact: about one in ten short replies on calls used to come back empty.' },
+    community: { title: 'Give your builders a room', body: 'Start small and regular: monthly office hours, an open mic for demos, then a build sprint with a partner. Make it easy for people to show what they made with your product.', proof: 'The Bolna × Cartesia Voc-a-thon drew 100+ teams building with the product in two weeks.' },
+    social: { title: 'Turn the team and users into the channel', body: 'Ship a kit for every moment (speaker and attendee cards, launch posts, short product films) so the people closest to the product post first and the company account amplifies.', proof: 'Symphony was carried by 124 posts from speakers, partners and the team, not just the brand account.' },
+    builders: { title: 'Put the product where builders already are', body: 'Templates, short tutorials and sample projects that get someone to a working result in minutes, with an in-product checklist that points to the next step.', proof: 'An onboarding checklist lifted agent creation by about 20% over a holdout at Bolna.' },
+    reference: { title: 'Earn proof others will cite', body: 'Customer stories with numbers, talks at the events your buyers attend, and one data-led report a year that gives journalists and analysts something to reference.', proof: 'Bolna’s seed round and Symphony together brought in 26 pieces of independent coverage.' }
+  };
+  const ALWAYS = [
+    { title: 'Measure activation before acquisition', body: 'Track the path from first visit to first real use, run every nudge against a holdout, and keep only what moves people forward.', proof: 'At Bolna, the in-app prompt did the work: 43.1% tested an agent with it, and adding an email only moved that to 43.5%.' },
+    { title: 'Run one signature community moment', body: 'A gathering that only you could host, built around trying the product, not watching slides: booths run by the people who built each feature and a wall where visitors argue back.', proof: 'Symphony brought 1,800+ people together, with Mehfil built to be played with, not walked past.' }
+  ];
+
+  function renderPlan(results, q) {
+    const measured = results.filter(r => r.res);
+    const weakest = [...measured].sort((a, b) => a.res.pts / a.res.max - b.res.pts / b.res.max).map(r => r.sig.key);
+    const order = [...new Set([...weakest, ...SIGNALS.map(s => s.key)])];
+    const phases = [
+      { name: 'Days 1–30', sub: 'Listen, then fix the foundation', moves: [MOVES[order[0]], MOVES[order[1]]] },
+      { name: 'Days 31–60', sub: 'Put the product in people’s hands', moves: [MOVES[order[2]], ALWAYS[0]] },
+      { name: 'Days 61–90', sub: 'Let users carry the story', moves: [MOVES[order[3]], ALWAYS[1]] }
+    ];
+    $('plan-lede').textContent = 'Built around ' + q.name + '’s weakest signals first. Every move is product-led advocacy or community engagement: the product does the convincing, and the people using it do the talking.' + (q.about ? ' Shaped for: “' + q.about.slice(0, 120) + (q.about.length > 120 ? '…' : '') + '”' : '');
+    $('plan').innerHTML = phases.map(p => '<div class="phase"><h3>' + p.name + '<small>' + p.sub + '</small></h3>' +
+      p.moves.map(m => '<div class="move"><strong>' + esc(m.title) + '</strong><p>' + esc(m.body) + '</p><p class="proof">' + esc(m.proof) + '</p></div>').join('') + '</div>').join('');
+  }
+
+  // ---------- run ----------
+  const levels = $('levels');
+  for (let i = 0; i < 20; i++) levels.appendChild(document.createElement('i'));
+
+  $('check').addEventListener('submit', async e => {
+    e.preventDefault();
+    const raw = Object.fromEntries(new FormData(e.target));
+    const name = (raw.company || '').trim();
+    if (name.length < 2) { $('hint').innerHTML = '<span class="error">Add your company name to start.</span>'; $('company').focus(); return; }
+    $('hint').textContent = 'Takes about ten seconds. Nothing you enter is stored.';
+    const q = { name, raw, about: (raw.about || '').trim(), site: normSite(raw.website || ''), x: handle(raw.x || ''), linkedin: handle(raw.linkedin || ''), instagram: handle(raw.instagram || ''), youtube: handle(raw.youtube || '') };
+    const go = e.target.querySelector('.go'); go.disabled = true; go.textContent = 'Checking…';
+    $('report').classList.remove('on'); $('progress').classList.add('on');
+    $('sources').innerHTML = SIGNALS.map(s => '<li id="src-' + s.key + '" class="busy">' + s.name + '</li>').join('');
+
+    const results = await Promise.all(SIGNALS.map(async sig => {
+      const li = $('src-' + sig.key);
+      try { const res = await sig.run(q); li.className = 'done'; return { sig, res }; }
+      catch { li.className = 'fail'; return { sig, res: null }; }
+    }));
+
+    const measured = results.filter(r => r.res);
+    const got = measured.reduce((n, r) => n + r.res.pts, 0), possible = measured.reduce((n, r) => n + r.res.max, 0);
+    const score = possible ? Math.round(got / possible * 100) : 0;
+    const [, grade, read] = GRADES.find(g => score >= g[0]);
+
+    $('score').textContent = score;
+    [...levels.children].forEach((bar, i) => { bar.style.height = (30 + i * 3.5) + '%'; bar.classList.toggle('on', i < Math.round(score / 5)); });
+    $('grade').textContent = grade;
+    $('read').textContent = read;
+
+    $('params').innerHTML = results.map(({ sig, res }) => res
+      ? '<li><div class="name">' + sig.name + '<small>' + sig.note + '</small></div><div><div class="bar"><i style="width:' + Math.round(res.pts / res.max * 100) + '%"></i></div><div class="pts">' + res.pts + ' of ' + res.max + '</div></div><div class="found">' + esc(res.found) + '</div></li>'
+      : '<li class="skip"><div class="name">' + sig.name + '<small>' + sig.note + '</small></div><div><div class="bar"><i></i></div><div class="pts">Not measured</div></div><div class="found">This source didn’t respond, so it’s left out of the score. Try again in a minute.</div></li>').join('');
+
+    const groups = ['In the news', 'People talking', 'Your channels', 'Builders', 'Reference'];
+    const all = measured.flatMap(r => r.res.links);
+    $('links').innerHTML = groups.map(g => {
+      const items = all.filter(l => l.group === g);
+      return '<div><h3>' + g + '</h3>' + (items.length ? '<ul>' + items.map(l => '<li><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a><small>' + esc(l.meta) + '</small></li>').join('') + '</ul>' : '<p class="empty">Nothing found yet.</p>') + '</div>';
+    }).join('');
+
+    renderPlan(results, q);
+    $('mail').href = 'mailto:mailsonamb@gmail.com?subject=' + encodeURIComponent('Brand check: ' + name + ' scored ' + score) + '&body=' + encodeURIComponent('Hi Sonam,\n\nI ran ' + name + ' through your brand check and it scored ' + score + ' (' + grade + '). I’d like to talk through the plan.\n\n');
+
+    $('progress').classList.remove('on'); $('report').classList.add('on');
+    go.disabled = false; go.textContent = 'Check again';
+    $('report').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  });
+})();
+</script>
+</body></html>
